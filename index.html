@@ -1,0 +1,54 @@
+<button type="button" onclick="history.go(-1)">back</button>
+<h2>Push Model Router by JS</h2>
+<ul>
+    <li onclick="Router.push('/')">Home</li>
+    <li onclick="Router.push('/news')">News</li>
+    <li onclick="Router.push('/product')">Product</li>
+</ul>
+<div id="app"></div>
+<script>
+    var app = document.getElementById("app");
+
+function RouterClass() {
+    this.routes={};
+    this.curUrl=""; //init url
+    this.eventHashRouter();
+}
+
+    RouterClass.prototype.route = function(path, callback) {
+        this.routes[path] = callback || function(){}
+    }
+
+    // Listerner hashchange
+    RouterClass.prototype.eventHashRouter = function() {
+        window.addEventListener("hashchange", this.hashRouter.bind(this))
+    }
+
+    RouterClass.prototype.hashRouter = function() {
+        this.curUrl = window.location.hash.slice(1) || '/';
+        // console.log(this.curUrl);
+        this.routes[this.curUrl]();
+    }
+
+    RouterClass.prototype.push = function(url) {
+        console.log(url);
+        url = "#" +url;
+        window.location.href = url;
+    }
+
+   // renew routerclass function
+    var Router = new RouterClass()
+
+
+    Router.route('/', function() {
+        app.innerHTML="New"
+    })
+    Router.route('/news', function() {
+        app.innerHTML="news web"
+    })
+    Router.route('/product', function() {
+        app.innerHTML="product web"
+    })
+</script>
+ 
+
